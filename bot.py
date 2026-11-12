@@ -31,7 +31,7 @@ def check_task(i, t):
         errs.append("нужно от 2 до 10 вариантов")
     if not isinstance(t.get("correct"), int) or not (0 <= t.get("correct", -1) < len(opts)):
         errs.append("поле correct должно быть номером правильного варианта (с 0)")
-    if len(f"📐 Задача №{i + 1}\n{t.get('question', '')}") > MAX_QUESTION:
+    if len(f"📐 {t.get('subject', 'Математика')} · задача №{i + 1}\n{t.get('question', '')}") > MAX_QUESTION:
         errs.append(f"вопрос длиннее {MAX_QUESTION} символов")
     if any(len(o) > MAX_OPTION for o in opts):
         errs.append(f"вариант длиннее {MAX_OPTION} символов")
@@ -59,7 +59,7 @@ def load_state():
 def send_quiz(number, t):
     payload = {
         "chat_id": CHANNEL_ID,
-        "question": f"📐 Задача №{number}\n{t['question']}",
+        "question": f"📐 {t.get('subject', 'Математика')} · задача №{number}\n{t['question']}",
         "options": t["options"],
         "type": "quiz",
         "correct_option_id": t["correct"],
